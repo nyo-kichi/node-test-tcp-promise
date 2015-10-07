@@ -45,4 +45,18 @@ describe('index', () => {
             });
         });
     });
+
+    describe('emptyPorts()', () => {
+        it('should return Promise object', () => {
+            let got = testTcp.emptyPorts(3);
+            assert(got instanceof Promise);
+            return got;
+        });
+
+        it('should get empty ports', () => {
+            return testTcp.emptyPorts(3).then(ports => {
+                assert(ports.length === 3);
+            });
+        });
+    });
 });

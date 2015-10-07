@@ -12,4 +12,13 @@ testTcp.emptyPort = (port) => {
     });
 };
 
+testTcp.emptyPorts = (num) => {
+    return new Promise((resolve, reject) => {
+        TestTCP.empty_ports(num, (err, ports) => {
+            if (err) reject(err);
+            resolve(ports);
+        });
+    });
+};
+
 module.exports = testTcp;
