@@ -6,8 +6,16 @@
   "scripts": {
     "test": "mocha --require intelli-espower-loader"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyo-kichi/node-test-tcp-promise.git"
+  },
   "author": "nyo-kichi",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nyo-kichi/node-test-tcp-promise/issues"
+  },
+  "homepage": "https://github.com/nyo-kichi/node-test-tcp-promise#readme",
   "engines": {
     "node": ">= 4.0.0"
   },
