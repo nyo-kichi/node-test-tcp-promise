@@ -6,11 +6,11 @@ exports = module.exports = testTcp;
 
 function runServer(server) {
     return emptyPort().then((port) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             server.listen(port, () => { resolve(server); });
         });
     });
-};
+}
 exports.runServer = runServer;
 
 function emptyPort(port) {
@@ -20,7 +20,7 @@ function emptyPort(port) {
             resolve(gettingPort);
         });
     });
-};
+}
 exports.emptyPort = emptyPort;
 
 function emptyPorts(num) {
@@ -30,5 +30,5 @@ function emptyPorts(num) {
             resolve(ports);
         });
     });
-};
+}
 exports.emptyPorts = emptyPorts;
