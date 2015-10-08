@@ -1,5 +1,6 @@
 'use strict';
 let assert = require('power-assert');
+let http = require('http');
 let testTcp = require('../');
 
 describe('index', () => {
@@ -57,6 +58,35 @@ describe('index', () => {
             return testTcp.emptyPorts(3).then(ports => {
                 assert(ports.length === 3);
             });
+        });
+    });
+
+    describe('runServer()', () => {
+        it('should return Promise object', () => {
+            let got = testTcp(http.createServer());
+            assert(got instanceof Promise);
+            return got;
+        });
+
+        it('should run server', (done) => {
+            testTcp(http.createServer((req, res) => {
+                res.writeHead(200, { 'Content-type': 'text/plain' });
+                res.end();
+            })).then((server) => {
+                assert(server);
+
+                let url = 'http://localhost:' + server.address().port;
+                http.get(url, (res) => {
+                    assert(res.statusCode === 200);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('testTcp', () => {
+        it('should be alias runServer()', () => {
+            assert(testTcp === testTcp.runServer);
         });
     });
 });

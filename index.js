@@ -1,9 +1,17 @@
 'use strict';
 let TestTCP = require('test-tcp');
 
+let testTcp = runServer;
 exports = module.exports = testTcp;
 
-function testTcp() {}
+function runServer(server) {
+    return emptyPort().then((port) => {
+        return new Promise((resolve, reject) => {
+            server.listen(port, () => { resolve(server); });
+        });
+    });
+};
+exports.runServer = runServer;
 
 function emptyPort(port) {
     return new Promise((resolve, reject) => {
