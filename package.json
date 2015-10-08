@@ -1,5 +1,5 @@
 {
-  "name": "node-test-tcp-promise",
+  "name": "test-tcp-promise",
   "version": "0.0.0",
   "description": "testing TCP program using Promise",
   "main": "index.js",
