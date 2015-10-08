@@ -1,6 +1,6 @@
 {
   "name": "test-tcp-promise",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "testing TCP program using Promise",
   "main": "index.js",
   "scripts": {
