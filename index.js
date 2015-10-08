@@ -1,9 +1,11 @@
 'use strict';
 let TestTCP = require('test-tcp');
 
+exports = module.exports = testTcp;
+
 function testTcp() {}
 
-testTcp.emptyPort = (port) => {
+function emptyPort(port) {
     return new Promise((resolve, reject) => {
         TestTCP.empty_port(port, (err, gettingPort) => {
             if (err) reject(err);
@@ -11,8 +13,9 @@ testTcp.emptyPort = (port) => {
         });
     });
 };
+exports.emptyPort = emptyPort;
 
-testTcp.emptyPorts = (num) => {
+function emptyPorts(num) {
     return new Promise((resolve, reject) => {
         TestTCP.empty_ports(num, (err, ports) => {
             if (err) reject(err);
@@ -20,5 +23,4 @@ testTcp.emptyPorts = (num) => {
         });
     });
 };
-
-module.exports = testTcp;
+exports.emptyPorts = emptyPorts;
