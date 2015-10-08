@@ -83,8 +83,8 @@ testTcp.emptyPorts(3).then(ports => {
 
 See Also
 --------
-[Test::TCP](https://github.com/tokuhirom/Test-TCP)
-[node-test-tcp](https://github.com/sugyan/node-test-tcp)
+* [Test::TCP](https://github.com/tokuhirom/Test-TCP)
+* [node-test-tcp](https://github.com/sugyan/node-test-tcp)
 
 Author
 ------
