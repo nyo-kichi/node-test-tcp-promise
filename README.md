@@ -3,39 +3,111 @@ node-test-tcp-promise
 
 testing TCP program using Promise, like as Perl's [Test::TCP](https://github.com/tokuhirom/Test-TCP)
 
+__Require Node.js v4.0.0 or above.__
+
 ```javascript
 let http = require('http');
+let net = require('net');
 let testTcp = require('test-tcp-promise');
 
 describe('example of test code using Mocha', () => {
-    let server1, server2;
+    let httpSvr, echoSvr;
 
     beforeEach(() => {
         let run1 = testTcp(http.createServer());
-        let run2 = testTcp(http.createServer());
+        let run2 = testTcp(net.createServer());
+
         return Promise.all([ run1, run2 ]).then(servers => {
-            [ server1, server2 ] = servers;
+            httpSvr = servers[0];
+            echoSvr = servers[1];
         });
     });
 
     afterEach(() => {
-        server1.close();
-        server2.close();
+        [ httpSvr, echoSvr ].forEach(server => { server.close(); });
     });
 
-    it('test using server1 and server2', () => {
-        // server1 and server2 are running
+    it('test using httpSvr and echoSvr', () => {
+        // httpSrv and echoSrv are running
     });
 });
 ```
+
+This module is a wrapper of [node-test-tcp](https://github.com/sugyan/node-test-tcp) to use Promise.
 
 Installation
 ------------
 
     npm install https://github.com/nyo-kichi/node-test-tcp-promise
 
-Functions
----------
+Example
+-------
+```javascript
+'use strict';
+let assert = require('assert');
+let http = require('http');
+let net = require('net');
+let testTcp = require('test-tcp-promise');
+
+describe('example of test code using Mocha', () => {
+    let httpSvr, echoSvr;
+
+    beforeEach(() => {
+        let run1 = testTcp(http.createServer());
+        let run2 = testTcp(net.createServer());
+
+        return Promise.all([ run1, run2 ]).then(servers => {
+            httpSvr = servers[0];
+            echoSvr = servers[1];
+        });
+    });
+
+    afterEach(() => {
+        [ httpSvr, echoSvr ].forEach(server => { server.close(); });
+    });
+
+    it('test using httpSvr and echoSvr', () => {
+        httpSvr.on('request', (req, res) => {
+            res.writeHead(200, { 'Content-type': 'text/plain' });
+            res.end();
+        });
+        echoSvr.on('connection', (socket) => {
+            socket.write('hello\r\n');
+            socket.pipe(socket);
+        });
+
+        let get = new Promise(resolve => {
+            let url = 'http://localhost:' + httpSvr.address().port;
+            let req = http.get(url, (res) => {
+                assert(res.statusCode === 200, 'get');
+                resolve();
+            });
+            req.end();
+        });
+
+        let echo = new Promise(resolve => {
+            let port = echoSvr.address().port;
+            let client = net.connect({ port: port }, () => {
+                client.write('world!\r\n');
+            });
+            let buffer = '';
+            client.on('data', data => {
+                buffer += data.toString();
+                client.end();
+            });
+            client.on('end', () => {
+                assert(buffer === 'hello\r\nworld!\r\n', 'echo');
+                resolve();
+            });
+        });
+
+        return Promise.all([ get, echo ]);
+    });
+});
+```
+
+API
+---
 All functions retrun Promise object.
 
 ### testTcp(server)
