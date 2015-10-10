@@ -76,10 +76,11 @@ describe('index', () => {
                 assert(server);
 
                 let url = 'http://localhost:' + server.address().port;
-                http.get(url, (res) => {
+                let req = http.get(url, (res) => {
                     assert(res.statusCode === 200);
                     done();
                 });
+                req.end();
             });
         });
     });
