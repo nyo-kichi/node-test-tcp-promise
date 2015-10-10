@@ -70,7 +70,7 @@ describe('index', () => {
 
         it('should run server', (done) => {
             testTcp(http.createServer((req, res) => {
-                res.writeHead(200, { 'Content-type': 'text/plain' });
+                res.writeHead(200);
                 res.end();
             })).then((server) => {
                 assert(server);

@@ -4,7 +4,7 @@
   "description": "testing TCP program using Promise",
   "main": "index.js",
   "scripts": {
-    "jshint": "jshint package.json index.js test || echo",
+    "jshint": "jshint package.json index.js test || exit 0",
     "test": "mocha --require intelli-espower-loader"
   },
   "repository": {
